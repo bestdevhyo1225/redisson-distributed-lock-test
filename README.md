@@ -34,7 +34,7 @@ curl -L -v -d '{"memberId": 1841104, "code" : "REWARD_ORDER", "amounts": 100}' \
 
 ### Lock 획득 및 해제 로직에 AOP 적용
 
-Lock을 획득하거나, 해제하는 로직은 부가 기능에 해당하기 때문에 AOP를 적용했음.
+**Lock을 획득하거나, 해제하는 로직은 부가 기능에 해당하기 때문에 AOP를 적용했음.**
 
 > @DistributedLock
 
