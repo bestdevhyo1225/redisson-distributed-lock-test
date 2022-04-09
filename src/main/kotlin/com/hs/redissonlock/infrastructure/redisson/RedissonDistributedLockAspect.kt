@@ -11,7 +11,7 @@ import org.redisson.api.RedissonClient
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.util.ObjectUtils
-import java.lang.IllegalStateException
+import java.lang.reflect.Field
 import java.util.concurrent.TimeUnit
 
 @Aspect
@@ -53,14 +53,22 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
     private fun getMemberIdThroughReflection(joinPoint: ProceedingJoinPoint): Any {
         joinPoint.args.forEach { arg ->
             // 리플렉션을 사용했기 때문에 주의 깊게 살펴 봐야한다. -> 런타임 환경에서 문제가 발생할 수 있기 때문
-            val field = arg.javaClass.getDeclaredField(uniqueLockMemberIdField)
+            val field = getDeclaredField(arg = arg)
             field.getAnnotation(DistributedLockUniqueKey::class.java)?.let {
                 field.isAccessible = true
                 return field.get(arg)
             }
         }
 
-        throw IllegalAccessException("memberId 필드에 @DistributedLockUniqueKey을 설정해주세요.")
+        throw RuntimeException("memberId 필드에 @DistributedLockUniqueKey을 설정해주세요.")
+    }
+
+    private fun getDeclaredField(arg: Any): Field {
+        try {
+            return arg.javaClass.getDeclaredField(uniqueLockMemberIdField)
+        } catch (exception: NoSuchFieldException) {
+            throw IllegalAccessException("memberId 필드가 존재하지 않아서 접근할 수 없습니다.")
+        }
     }
 
     private fun getLock(lockName: String): RLock {
