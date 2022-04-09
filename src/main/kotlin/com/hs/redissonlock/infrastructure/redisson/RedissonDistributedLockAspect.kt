@@ -52,7 +52,6 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
 
     private fun getMemberIdThroughReflection(joinPoint: ProceedingJoinPoint): Any {
         joinPoint.args.forEach { arg ->
-            // 리플렉션을 사용했기 때문에 주의 깊게 살펴 봐야한다. -> 런타임 환경에서 문제가 발생할 수 있기 때문
             val field = getDeclaredField(arg = arg)
             field.getAnnotation(DistributedLockUniqueKey::class.java)?.let {
                 field.isAccessible = true
