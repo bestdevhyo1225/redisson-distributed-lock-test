@@ -89,7 +89,7 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
         logger.info("[Redisson] tryLock (lockName : {}, isAcquiredLock : {})", lockName, isAcquiredLock)
 
         if (!isAcquiredLock) {
-            throw RuntimeException("Timeout이 발생하여 Lock 획득을 실패했습니다. 잠시 후에 다시 시도해주세요")
+            throw RuntimeException("일시적으로 작업을 수행할 수 없습니다. 잠시 후에 다시 시도해주세요.")
         }
     }
 
