@@ -84,6 +84,7 @@ class PointController(
     fun createPoint(@RequestBody @Valid request: CreatePointRequest): ResponseEntity<SuccessResponse<CreatePointResultDto>> {
         val serviceDto = CreatePointDto(memberId = request.memberId, code = request.code, amounts = request.amounts)
         val serviceResultDto = pointService.createPoint(serviceDto = serviceDto)
+        
         return ResponseEntity.ok(SuccessResponse(data = serviceResultDto))
     }
 }
