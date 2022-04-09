@@ -86,11 +86,11 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
             throw RuntimeException("잠금을 획득하는 과정에서 예외로 인해 작업이 중단되었습니다.")
         }
 
-        logger.info("tryLock (key = {})", lockName)
-
         if (!isAcquiredLock) {
             throw RuntimeException("일시적으로 작업을 수행할 수 없습니다. 잠시 후에 다시 시도해주세요.")
         }
+
+        logger.info("tryLock (key = {})", lockName)
     }
 
     private fun releaseLock(rLock: RLock, lockName: String) {
