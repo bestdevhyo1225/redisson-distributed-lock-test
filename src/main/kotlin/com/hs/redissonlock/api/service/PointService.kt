@@ -39,6 +39,7 @@ class PointService(
 
     fun findPoint(id: Long): FindPointResultDto {
         val point = pointRepository.findByIdOrNull(id) ?: throw NoSuchElementException("Point가 존재하지 않습니다.")
+
         return FindPointResultDto(
             pointId = point.id!!,
             memberId = point.memberId,
@@ -50,11 +51,13 @@ class PointService(
 
     fun findPointTotal(memberId: Long): FindPointTotalResultDto {
         val pointTotal = findPointTotalByMemberId(memberId = memberId)
+
         return FindPointTotalResultDto(memberId = memberId, currentAmounts = pointTotal.currentAmounts)
     }
 
     fun findPointsByPageable(memberId: Long, start: Int, count: Int): FindPageableResultDto<FindPointResultDto> {
         val pageResult = pointRepository.findAll(PageRequest.of(start / count, count))
+
         return FindPageableResultDto(
             items = pageResult.content.map {
                 FindPointResultDto(

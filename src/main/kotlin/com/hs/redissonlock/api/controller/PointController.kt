@@ -34,18 +34,21 @@ class PointController(
     fun createPoint(@RequestBody @Valid request: CreatePointRequest): ResponseEntity<SuccessResponse<CreatePointResultDto>> {
         val serviceDto = CreatePointDto(memberId = request.memberId, code = request.code, amounts = request.amounts)
         val serviceResultDto = pointService.createPoint(serviceDto = serviceDto)
+
         return ResponseEntity.ok(SuccessResponse(data = serviceResultDto))
     }
 
     @GetMapping("/{id}")
     fun findPointById(@PathVariable id: Long): ResponseEntity<SuccessResponse<FindPointResultDto>> {
         val serviceResultDto = pointService.findPoint(id = id)
+
         return ResponseEntity.ok(SuccessResponse(data = serviceResultDto))
     }
 
     @GetMapping("/total/{memberId}")
     fun findPointTotalByMemberId(@PathVariable memberId: Long): ResponseEntity<SuccessResponse<FindPointTotalResultDto>> {
         val serviceResultDto = pointService.findPointTotal(memberId = memberId)
+
         return ResponseEntity.ok(SuccessResponse(data = serviceResultDto))
     }
 
@@ -56,6 +59,7 @@ class PointController(
         @RequestParam(defaultValue = "5") count: Int
     ): ResponseEntity<SuccessResponse<FindPageableResultDto<FindPointResultDto>>> {
         val serviceResultDto = pointService.findPointsByPageable(memberId = memberId, start = start, count = count)
+
         return ResponseEntity.ok(SuccessResponse(data = serviceResultDto))
     }
 }
