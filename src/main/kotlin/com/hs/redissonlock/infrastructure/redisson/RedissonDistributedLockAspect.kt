@@ -60,7 +60,7 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
             }
         }
 
-        throw IllegalStateException("memberId 필드에 @DistributedLockUniqueKey을 설정해주세요.")
+        throw IllegalAccessException("memberId 필드에 @DistributedLockUniqueKey을 설정해주세요.")
     }
 
     private fun getLock(lockName: String): RLock {
