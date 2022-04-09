@@ -83,7 +83,7 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
         try {
             isAcquiredLock = rLock.tryLock(waitTime, leaseTime, timeUnit)
         } catch (exception: InterruptedException) {
-            throw RuntimeException("Lock을 획득하는 과정에서 예외로 인해 작업이 종료되었습니다.")
+            throw RuntimeException("잠금을 획득하는 과정에서 예외로 인해 작업이 중단되었습니다.")
         }
 
         logger.info("[Redisson] tryLock (lockName : {}, isAcquiredLock : {})", lockName, isAcquiredLock)
