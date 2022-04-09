@@ -46,7 +46,7 @@ curl -L -v -d '{"memberId": 1841104, "code" : "REWARD_ORDER", "amounts": 100}' \
 - 적용되는 메서드의 `파라미터` 정보를 얻어온다. (ProceedingJoinPoint의 `args` 프로퍼티를 얻어옴)
 - lockName은 `LOCK_NAME_PREFIX + memberId` 값으로 지정했음.
 - 다만, `memberId` 는 고정된 값이 아니기 때문에 `리플렉션` 기법을 통해 런타임에 `memberId` 를 획득하여, lockName을 생성했음.
-  - :exclamation: 리플렉션을 사용하는 경우, 컴파일에서 에러를 잡을 수 없기 때문에 런타임 시점에 에러가 발생할 가능성이 높음. 
+- :exclamation: 주의) 리플렉션을 사용하는 경우, 컴파일에서 에러를 잡을 수 없기 때문에 `런타임 시점에 에러가 발생할 가능성이 높음.` 
 
 > @DistributedLockUniqueKey
 
