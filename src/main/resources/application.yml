@@ -21,10 +21,9 @@ spring:
 
   redisson:
     mode: single
-    password: changeme
     nodes:
       - redis://localhost:6379
 
-logging:
-  level:
-    org.redisson: debug
+#logging:
+#  level:
+#    org.redisson: debug

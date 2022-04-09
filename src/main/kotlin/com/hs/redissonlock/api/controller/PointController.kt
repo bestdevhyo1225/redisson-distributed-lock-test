@@ -8,6 +8,7 @@ import com.hs.redissonlock.api.service.dto.CreatePointResultDto
 import com.hs.redissonlock.api.service.dto.FindPageableResultDto
 import com.hs.redissonlock.api.service.dto.FindPointResultDto
 import com.hs.redissonlock.api.service.dto.FindPointTotalResultDto
+import com.hs.redissonlock.common.annotations.DistributedLock
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import java.util.concurrent.TimeUnit
 import javax.validation.Valid
 
 @RestController
@@ -28,6 +30,7 @@ class PointController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @DistributedLock(waitTime = 2_500, leaseTime = 3_000, timeUnit = TimeUnit.MILLISECONDS)
     fun createPoint(@RequestBody @Valid request: CreatePointRequest): ResponseEntity<SuccessResponse<CreatePointResultDto>> {
         val serviceDto = CreatePointDto(memberId = request.memberId, code = request.code, amounts = request.amounts)
         val serviceResultDto = pointService.createPoint(serviceDto = serviceDto)
