@@ -47,12 +47,12 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
             throw IllegalArgumentException("적용하려는 메서드의 인자가 존재하지 않습니다.")
         }
 
-        return RedissonClientConfig.LOCK_NAME_PREFIX + getMemberIdThroughReflection(joinPoint = joinPoint)
+        return RedissonClientConfig.LOCK_NAME_PREFIX + getMemberId(joinPoint = joinPoint)
     }
 
-    private fun getMemberIdThroughReflection(joinPoint: ProceedingJoinPoint): Any {
+    private fun getMemberId(joinPoint: ProceedingJoinPoint): Any {
         joinPoint.args.forEach { arg ->
-            val field = getDeclaredField(arg = arg)
+            val field = getDeclaredMemberIdField(arg = arg)
             field.getAnnotation(DistributedLockUniqueKey::class.java)?.let {
                 field.isAccessible = true
                 return field.get(arg)
@@ -62,7 +62,7 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
         throw RuntimeException("memberId 필드에 @DistributedLockUniqueKey을 설정해주세요.")
     }
 
-    private fun getDeclaredField(arg: Any): Field {
+    private fun getDeclaredMemberIdField(arg: Any): Field {
         try {
             return arg.javaClass.getDeclaredField(uniqueLockMemberIdField)
         } catch (exception: NoSuchFieldException) {
