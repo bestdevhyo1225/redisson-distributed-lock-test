@@ -39,7 +39,7 @@ class Point(
         protected set
 
     companion object {
-        fun newInstance(memberId: Long, code: String, amounts: Int, currentAmounts: Int): Point {
+        fun create(memberId: Long, code: String, amounts: Int, currentAmounts: Int): Point {
             return Point(
                 memberId = memberId,
                 code = PointCode.convertFromStringToEnum(value = code),

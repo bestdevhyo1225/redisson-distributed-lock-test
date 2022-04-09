@@ -24,7 +24,7 @@ class PointService(
     @Transactional
     fun createPoint(serviceDto: CreatePointDto): CreatePointResultDto {
         val pointTotal = findPointTotalByMemberId(memberId = serviceDto.memberId)
-        val point = Point.newInstance(
+        val point = Point.create(
             memberId = serviceDto.memberId,
             code = serviceDto.code,
             amounts = serviceDto.amounts,
