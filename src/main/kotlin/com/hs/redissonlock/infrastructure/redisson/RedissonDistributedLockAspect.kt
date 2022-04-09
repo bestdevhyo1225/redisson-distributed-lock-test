@@ -90,6 +90,7 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
             logger.info("[Redisson] releaseLock (lockName : {})", lockName)
             return rLock.unlock()
         }
+
         logger.info("[Redisson] Already releaseLock (lockName : {})", lockName)
     }
 }
