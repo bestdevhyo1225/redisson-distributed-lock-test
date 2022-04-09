@@ -59,11 +59,13 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
                 return field.get(arg)
             }
         }
+
         throw IllegalStateException("memberId 필드에 @DistributedLockUniqueKey Annotation을 설정해주세요.")
     }
 
     private fun getLock(lockName: String): RLock {
         logger.info("[Redisson] getLock (lockName : {})", lockName)
+
         return redissonClient.getLock(lockName)
     }
 
