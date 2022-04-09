@@ -72,7 +72,7 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
     }
 
     private fun getLock(lockName: String): RLock {
-        logger.info("[Redisson] getLock (lockName : {})", lockName)
+        logger.info("getLock (key = {})", lockName)
 
         return redissonClient.getLock(lockName)
     }
@@ -86,7 +86,7 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
             throw RuntimeException("잠금을 획득하는 과정에서 예외로 인해 작업이 중단되었습니다.")
         }
 
-        logger.info("[Redisson] tryLock (lockName : {}, isAcquiredLock : {})", lockName, isAcquiredLock)
+        logger.info("tryLock (key = {})", lockName)
 
         if (!isAcquiredLock) {
             throw RuntimeException("일시적으로 작업을 수행할 수 없습니다. 잠시 후에 다시 시도해주세요.")
@@ -95,10 +95,10 @@ class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) 
 
     private fun releaseLock(rLock: RLock, lockName: String) {
         if (rLock.isLocked && rLock.isHeldByCurrentThread) {
-            logger.info("[Redisson] releaseLock (lockName : {})", lockName)
+            logger.info("releaseLock (key = {})", lockName)
             return rLock.unlock()
         }
 
-        logger.info("[Redisson] Already releaseLock (lockName : {})", lockName)
+        logger.info("Already releaseLock (key = {})", lockName)
     }
 }
