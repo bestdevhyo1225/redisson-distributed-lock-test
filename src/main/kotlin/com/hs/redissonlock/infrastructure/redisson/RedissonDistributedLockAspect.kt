@@ -15,7 +15,7 @@ import java.lang.reflect.Field
 import java.util.concurrent.TimeUnit
 
 @Aspect
-@Component
+@Component // 다른 분산 락 Aspect를 사용하는 경우, 반드시 주석 처리해야 함
 class RedissonDistributedLockAspect(private val redissonClient: RedissonClient) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
