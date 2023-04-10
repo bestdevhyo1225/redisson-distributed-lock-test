@@ -10,9 +10,11 @@ import org.redisson.config.SingleServerConfig
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import java.util.*
 
 @Configuration
+@Profile(value = ["dev"])
 @EnableConfigurationProperties(value = [RedissonProperty::class])
 class RedissonClientConfig(private val redissonProperty: RedissonProperty) {
 

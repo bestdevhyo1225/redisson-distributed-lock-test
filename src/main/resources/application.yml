@@ -4,7 +4,7 @@ spring:
 
   datasource:
     hikari:
-      jdbc-url: jdbc:h2:mem:test
+      jdbc-url: jdbc:h2:mem:dev
       username: sa
       password:
       driver-class-name: org.h2.Driver
@@ -24,6 +24,7 @@ spring:
     nodes:
       - redis://localhost:6379
 
-#logging:
-#  level:
-#    org.redisson: debug
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.springframework.orm.jpa: debug
